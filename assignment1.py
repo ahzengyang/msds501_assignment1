@@ -65,7 +65,6 @@ def menu():
 def list_artists():
     """
     Displays unique artists alphabetically 
-
     """ 
     artists = []
     for i in spotify.values():
@@ -93,9 +92,23 @@ def song_details():
     print(f"{choice}: {spotify[choice].get("title")} by", end=" ")
     print(*spotify[choice].get("artists"), sep=", ")
 
+def artist_songs():
+    """
+    Displays songs by artist requested by user; case insensitive
+    """
+    artist = 0
+    while not artist:
+        artist = input(artist_question).lower()
+    out = ""
+    for k, v in spotify.items():
+        if artist in v["artists"]:
+            out.append(f"{k}: {spotify[k]["title"]}\n")
+    if out == "":
+        print(artist_question)
+
+
 def main():
     menu()
-
 
 if __name__ == "__main__":
     main() 
