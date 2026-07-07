@@ -38,6 +38,21 @@ artist_error = "No songs were found by "
 length_question = "Enter a number to view songs by length. (Positive: longest songs, Negative: shortest songs): "
 length_value_error = "Invalid value. Please enter a number."
 
+def menu():
+    while True:
+        try:
+            choice = int(input(user_choice_question))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+        if choice == 1:
+            list_artists()
+        elif choice == 0:
+            break
+        else:
+            print("Invalid input. Please enter a number from 0-4.")
+            
+
 def list_artists():
     """
     Displays unique artists alphabetically 
@@ -48,20 +63,10 @@ def list_artists():
         for j in i["artists"]:
             if j not in artists:
                 artists.append(j)
-    print(sorted(artists))
+    print(*sorted(artists), spet=", ")
 
 def main():
-    exit = False
-    while not exit:
-        try:
-            choice = int(input(user_choice_question))
-        except ValueError:
-            print("Invalid choice, please try again.")
-            continue
-        if choice == 1:
-            list_artists()
-        elif choice == 0:
-            exit = True
+    menu()
 
 
 if __name__ == "__main__":
