@@ -98,13 +98,16 @@ def artist_songs():
     """
     artist = 0
     while not artist:
-        artist = input(artist_question).lower()
+        artist = input(artist_question)
     out = ""
     for k, v in spotify.items():
-        if artist in v["artists"]:
-            out.append(f"{k}: {spotify[k]["title"]}\n")
+        for a in v["artists"]:
+            if artist.lower() == a.lower():
+                out += f"{k}: {spotify[k]["title"]}\n"
     if out == "":
-        print(artist_question)
+        print(artist_error, artist, sep="")
+    else:
+        print(out, end="")
 
 
 def main():
