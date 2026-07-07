@@ -39,6 +39,9 @@ length_question = "Enter a number to view songs by length. (Positive: longest so
 length_value_error = "Invalid value. Please enter a number."
 
 def menu():
+    """
+    Continuously prompts user for menu option input
+    """
     while True:
         try:
             choice = int(input(user_choice_question))
@@ -47,6 +50,12 @@ def menu():
             continue
         if choice == 1:
             list_artists()
+        elif choice == 2:
+            song_details()
+        elif choice == 3:
+            artist_songs()
+        elif choice == 4:
+            songs_by_length()
         elif choice == 0:
             break
         else:
@@ -63,7 +72,26 @@ def list_artists():
         for j in i["artists"]:
             if j not in artists:
                 artists.append(j)
-    print(*sorted(artists), spet=", ")
+    print(*sorted(artists), sep=", ")
+
+def song_details():
+    """
+    Displays a song requested by user
+    """
+    choice = 0
+    while not choice:
+        try:
+            choice = int(input(ranking_question))
+            if choice not in spotify:
+                raise IndexError
+        except ValueError:
+            print(ranking_value_error)
+            continue
+        except IndexError:
+            print(ranking_range_error)
+            continue
+    print(f"{choice}: {spotify[choice].get("title")} by", end=" ")
+    print(*spotify[choice].get("artists"), sep=", ")
 
 def main():
     menu()
