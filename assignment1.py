@@ -37,3 +37,15 @@ artist_error = "No songs were found by "
 
 length_question = "Enter a number to view songs by length. (Positive: longest songs, Negative: shortest songs): "
 length_value_error = "Invalid value. Please enter a number."
+
+def list_artists():
+    """
+    Displays unique artists alphabetically 
+
+    """ 
+    artists = []
+    for i in spotify.values():
+        for j in i["artists"]:
+            if j not in artists:
+                artists.append(j)
+    print(sorted(artists))
