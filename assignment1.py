@@ -49,3 +49,20 @@ def list_artists():
             if j not in artists:
                 artists.append(j)
     print(sorted(artists))
+
+def main():
+    exit = False
+    while not exit:
+        try:
+            choice = int(input(user_choice_question))
+        except ValueError:
+            print("Invalid choice, please try again.")
+            continue
+        if choice == 1:
+            list_artists()
+        elif choice == 0:
+            exit = True
+
+
+if __name__ == "__main__":
+    main() 
