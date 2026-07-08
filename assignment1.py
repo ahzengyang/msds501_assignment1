@@ -79,19 +79,17 @@ def song_details():
     Displays a song requested by user
     """
     choice = 0
-    while not choice:
-        try:
-            choice = int(input(ranking_question))
-            if choice not in spotify:
-                raise IndexError
-        except ValueError:
-            print(ranking_value_error)
-            continue
-        except IndexError:
-            print(ranking_range_error)
-            continue
-    print(f"{choice}: {spotify[choice]["title"]} by", end=" ")
-    print(*spotify[choice]["artists"], sep=", ")
+    try:
+        choice = int(input(ranking_question))
+        if choice not in spotify:
+            raise IndexError
+    except ValueError:
+        print(ranking_value_error)
+    except IndexError:
+        print(ranking_range_error)
+    else:
+        print(f"{choice}: {spotify[choice]["title"]} by", end=" ")
+        print(*spotify[choice]["artists"], sep=", ")
 
 
 def artist_songs():
@@ -128,7 +126,7 @@ def songs_by_length():
     time_sorted = sorted(spotify.items(), key=lambda item: item[1]["length"])
     if length > 0:
         time_sorted = sorted(spotify.items(), key=lambda item: item[1]["length"], reverse=True)
-    for i in range(length):
+    for i in range(abs(length)):
         song = time_sorted[i][1]
         time = song["length"]
         print(f"{song["title"]} by ", end="")
