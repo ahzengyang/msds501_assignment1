@@ -37,6 +37,7 @@ artist_error = "No songs were found by "
 
 length_question = "Enter a number to view songs by length. (Positive: longest songs, Negative: shortest songs): "
 length_value_error = "Invalid value. Please enter a number."
+length_range_error = "Length out of range."
 
 def menu():
     """
@@ -89,16 +90,15 @@ def song_details():
         except IndexError:
             print(ranking_range_error)
             continue
-    print(f"{choice}: {spotify[choice].get("title")} by", end=" ")
-    print(*spotify[choice].get("artists"), sep=", ")
+    print(f"{choice}: {spotify[choice]["title"]} by", end=" ")
+    print(*spotify[choice]["artists"], sep=", ")
+
 
 def artist_songs():
     """
     Displays songs by artist requested by user; case insensitive
     """
-    artist = 0
-    while not artist:
-        artist = input(artist_question)
+    artist = input(artist_question)
     out = ""
     for k, v in spotify.items():
         for a in v["artists"]:
@@ -109,9 +109,33 @@ def artist_songs():
     else:
         print(out, end="")
 
+def songs_by_length():
+    """
+    Displays x song(s) based on length, user input determines x; descending if positive, ascending if negative
+    """
+    length = 0
+    while True:
+        try:
+            length = int(input(length_question))
+            if abs(length) not in spotify:
+                raise IndexError
+            break
+        except ValueError:
+            print(length_value_error)
+            continue
+        except IndexError:
+            print(length_range_error)
+    time_sorted = sorted(spotify.items(), key=lambda item: item[1]["length"])
+    if length > 0:
+        time_sorted = sorted(spotify.items(), key=lambda item: item[1]["length"], reverse=True)
+    for i in range(length):
+        song = time_sorted[i][1]
+        time = song["length"]
+        print(f"{song["title"]} by ", end="")
+        print(*song["artists"], sep=", ", end=" ")
+        print(f"({int(time[0])*60 + int(time[2:])} seconds)")
 
 def main():
     menu()
 
-if __name__ == "__main__":
-    main() 
+main()
